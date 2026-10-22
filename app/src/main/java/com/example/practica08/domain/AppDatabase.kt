@@ -13,16 +13,20 @@ import com.example.practica08.data.UsuarioDao
 )
 abstract class AppDatabase : RoomDatabase() {
 
+    // Nos permite acceder a las funciones de UsuarioDao
     abstract fun usuarioDao(): UsuarioDao
 
     companion object {
 
+        // Mantiene una sola instancia de la base de datos
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
         fun getDatabase(context: Context): AppDatabase {
+
             return INSTANCE ?: synchronized(this) {
 
+                // Creamos la base de datos
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
@@ -30,6 +34,7 @@ abstract class AppDatabase : RoomDatabase() {
                 ).build()
 
                 INSTANCE = instance
+
                 instance
             }
         }
